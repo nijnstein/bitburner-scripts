@@ -111,7 +111,7 @@ export async function main(ns) {
 				c += toCore(ns, nodecount, 6);
 				if (c == 0) {
 					c += toN(ns, nodecount, 200);
-					c += toCore(ns, nodecount, 12);
+					c += toCore(ns, nodecount, 10);
 					if (nodecount == ns.hacknet.numNodes()) {
 						if (ns.hacknet.purchaseNode() < 0) await ns.sleep(10000);
 						else ns.print("added node");
