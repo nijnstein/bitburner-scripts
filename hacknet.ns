@@ -119,6 +119,7 @@ export async function main(ns) {
 				}
 			}
 		}
-		await ns.sleep(1000);
+		if(c == 0) await ns.sleep(1000);
+		else await ns.sleep(1); 
 	}
 }
