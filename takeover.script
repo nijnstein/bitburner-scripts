@@ -1,6 +1,8 @@
 // use like:  run takeover.script 'servername'
 
 brutessh(args[0]);
+ftpcrack(args[0]); 
+
 nuke(args[0]);
 
 var n_grow_on_host = getServerMaxRam(args[0]) / 2  - 1;
