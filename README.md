@@ -7,13 +7,17 @@
 -bruteforces access to ports, then nukes it
 
 -copies ``grow.ns`` to server and executes it with maxmem / 2 - 1 threads 
+
 -copies ``weaken.ns`` to server and executes it on 1 thread
 
 -installs backdoor 
 
 -starts grow.ns x4 on Home against server
+
 -starts weaken.ns on Home against server
+
 -starts hacking server from Home
+
 
 
 ### HackNet Automation
