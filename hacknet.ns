@@ -1,0 +1,68 @@
+function toN(ns, nodecount, count) {
+	var c = 0;
+	for (var i = 0; i < nodecount; i++) {
+		var stat = ns.hacknet.getNodeStats(i);
+		if (stat.level < count) {
+			if (ns.hacknet.upgradeLevel(i, 1)) {
+				ns.print("upgraded level");
+				c++;
+			}
+		}
+	}
+	return c;
+}
+
+function toMaxMem(ns, nodecount) {
+	var c = 0;
+	for (var i = 0; i < nodecount; i++) {
+		var stat = ns.hacknet.getNodeStats(i);
+		if (stat.ram < 64) {
+			if (ns.hacknet.upgradeRam(i, 1)) {
+				ns.print("upgraded memory");
+				c++;
+			}
+		}
+	}
+	return c;
+}
+
+function toCore(ns, nodecount, count) {
+	var c = 0;
+	for (var i = 0; i < nodecount; i++) {
+		var stat = ns.hacknet.getNodeStats(i);
+		if (stat.cores < count) {
+			if (ns.hacknet.upgradeCore(i, 1)) {
+				c++;
+				ns.print("upgraded core count");
+			}
+		}
+	}
+	return c;
+}
+
+
+/** @param {NS} ns **/
+export async function main(ns) {
+
+	while (true) {
+		var nodecount = ns.hacknet.numNodes();
+		var c = 0;
+
+		c += toN(ns, nodecount, 100);
+		c += toMaxMem(ns, nodecount);
+		c += toCore(ns, nodecount, 2);
+		c += toN(ns, nodecount, 150);
+		c += toCore(ns, nodecount, 6);
+		c += toN(ns, nodecount, 200);
+		c += toCore(ns, nodecount, 8);
+
+		if (c == 0) {
+			if (nodecount == ns.hacknet.numNodes()) {
+				if (ns.hacknet.purchaseNode() < 0) await ns.sleep(10000);
+				else ns.print("added node");
+			}
+		}
+
+		await ns.sleep(1000);
+	}
+}
