@@ -10,7 +10,59 @@ function toN(ns, nodecount, count) {
 		}
 	}
 	return c;
+} 
+
+function maxN(ns, nodecount)
+{ 
+	var m = 0; 
+	for (var i = 0; i < nodecount; i++) {
+		var stat = ns.hacknet.getNodeStats(i);
+		if(stat.level > m) 
+		{
+			m = stat.level;
+		}
+	}
+	return m; 
 }
+
+function minN(ns, nodecount)
+{ 
+	var m = 1024; 
+	for (var i = 0; i < nodecount; i++) {
+		var stat = ns.hacknet.getNodeStats(i);
+		if(stat.level < m) 
+		{
+			m = stat.level;
+		}
+	}
+	return m; 
+}
+
+function maxMem(ns, nodecount)
+{ 
+	var m = 0; 
+	for (var i = 0; i < nodecount; i++) {
+		var stat = ns.hacknet.getNodeStats(i);
+		if(stat.ram > m) 
+		{
+			m = stat.ram;
+		}
+	}
+	return m; 
+}
+function minMem(ns, nodecount)
+{ 
+	var m = 1024; 
+	for (var i = 0; i < nodecount; i++) {
+		var stat = ns.hacknet.getNodeStats(i);
+		if(stat.ram < m) 
+		{
+			m = stat.ram;
+		}
+	}
+	return m; 
+}
+
 
 function toMaxMem(ns, nodecount) {
 	var c = 0;
@@ -46,25 +98,35 @@ export async function main(ns) {
 
 	while (true) {
 		var nodecount = ns.hacknet.numNodes();
+
+		if(nodecount < 4) 
+		{
+			ns.purchaseNode();
+			continue; 
+		}
 		var c = 0;
+		var min_level = minN(ns, nodecount); 
+		var min_mem = minMem(ns, nodecount);
 
 		c += toN(ns, nodecount, 100);
 		c += toMaxMem(ns, nodecount);
 		c += toCore(ns, nodecount, 2);
-		if (c == 0) {
+
+	    if (min_level >= 100 && min_mem >= 32) 
+		{
 			c += toN(ns, nodecount, 150);
 			c += toCore(ns, nodecount, 6);
-			if (c == 0) {
+			if (min_level >= 150 && min_mem >= 64) {
 				c += toN(ns, nodecount, 190);
 				c += toCore(ns, nodecount, 8);
-			}
-			if (c == 0) {
-				c += toN(ns, nodecount, 200);
-				c += toCore(ns, nodecount, 12);
 				if (c == 0) {
-					if (nodecount == ns.hacknet.numNodes()) {
-						if (ns.hacknet.purchaseNode() < 0) await ns.sleep(10000);
-						else ns.print("added node");
+					c += toN(ns, nodecount, 200);
+					c += toCore(ns, nodecount, 12);
+					if (c == 0) {
+						if (nodecount == ns.hacknet.numNodes()) {
+							if (ns.hacknet.purchaseNode() < 0) await ns.sleep(10000);
+							else ns.print("added node");
+						}
 					}
 				}
 			}
