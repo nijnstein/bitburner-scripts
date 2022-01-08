@@ -1,0 +1,18 @@
+// use like:  run takeover.script 'servername'
+
+brutessh(args[0]);
+nuke(args[0]);
+
+var n_grow_on_host = getServerMaxRam(args[0]) / 2  - 1;
+
+files = ['grow.ns', 'weaken.ns'];
+scp(files, 'home', args[0]);
+
+run('grow.ns', 4, args[0]); 
+run('weaken.ns', 2, args[0]); 
+run('hack.ns', 1, args[0]); 
+
+if(n_grow_on_host > 0) exec('grow.ns', args[0], n_grow_on_host, args[0]);
+if(n_grow_on_host > -1) exec('weaken.ns', args[0], 1, args[0]);
+
+installBackdoor();
