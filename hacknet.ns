@@ -115,10 +115,10 @@ export async function main(ns) {
 	    if (min_level >= 100 && min_mem >= 32) 
 		{
 			c += toN(ns, nodecount, 150);
-			c += toCore(ns, nodecount, 6);
+			c += toCore(ns, nodecount, 4);
 			if (min_level >= 150 && min_mem >= 64) {
 				c += toN(ns, nodecount, 190);
-				c += toCore(ns, nodecount, 8);
+				c += toCore(ns, nodecount, 6);
 				if (c == 0) {
 					c += toN(ns, nodecount, 200);
 					c += toCore(ns, nodecount, 12);
