@@ -17,4 +17,4 @@ run('hack.ns', 1, args[0]);
 if(n_grow_on_host > 0) exec('grow.ns', args[0], n_grow_on_host, args[0]);
 if(n_grow_on_host > -1) exec('weaken.ns', args[0], 1, args[0]);
 
-installBackdoor();
+// installBackdoor();
