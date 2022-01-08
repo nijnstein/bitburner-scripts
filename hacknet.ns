@@ -51,18 +51,24 @@ export async function main(ns) {
 		c += toN(ns, nodecount, 100);
 		c += toMaxMem(ns, nodecount);
 		c += toCore(ns, nodecount, 2);
-		c += toN(ns, nodecount, 150);
-		c += toCore(ns, nodecount, 6);
-		c += toN(ns, nodecount, 200);
-		c += toCore(ns, nodecount, 8);
-
 		if (c == 0) {
-			if (nodecount == ns.hacknet.numNodes()) {
-				if (ns.hacknet.purchaseNode() < 0) await ns.sleep(10000);
-				else ns.print("added node");
+			c += toN(ns, nodecount, 150);
+			c += toCore(ns, nodecount, 6);
+			if (c == 0) {
+				c += toN(ns, nodecount, 190);
+				c += toCore(ns, nodecount, 8);
+			}
+			if (c == 0) {
+				c += toN(ns, nodecount, 200);
+				c += toCore(ns, nodecount, 12);
+				if (c == 0) {
+					if (nodecount == ns.hacknet.numNodes()) {
+						if (ns.hacknet.purchaseNode() < 0) await ns.sleep(10000);
+						else ns.print("added node");
+					}
+				}
 			}
 		}
-
 		await ns.sleep(1000);
 	}
 }
