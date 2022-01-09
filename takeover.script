@@ -1,7 +1,6 @@
-// use like:  run takeover.script 'servername'
-
-brutessh(args[0]);
-ftpcrack(args[0]); 
+if (fileExists("BruteSSH.exe", "home")) brutessh(args[0]);
+if (fileExists("FTPCrack.exe", "home")) ftpcrack(args[0]);
+if (fileExists("relaySMTP.exe", "home")) relaysmtp(args[0]); 
 
 nuke(args[0]);
 
@@ -16,5 +15,3 @@ run('hack.ns', 1, args[0]);
 
 if(n_grow_on_host > 0) exec('grow.ns', args[0], n_grow_on_host, args[0]);
 if(n_grow_on_host > -1) exec('weaken.ns', args[0], 1, args[0]);
-
-// installBackdoor();
