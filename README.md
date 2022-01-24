@@ -1,6 +1,8 @@
 # bitburner-scripts
 ###### Scripts to automate various parts of bitburner 
 
+While basic, these are easy to understand and get you started. 
+
 ### Takeover 
 ###### Bruteforce a server
 
@@ -21,6 +23,8 @@
 
 
 ### HackNet Automation
+
+**Please start 4 nodes before running this script: **
 
 ``hacknet.ns`` => basic script to automate hacknet node upgrading and purchasing 
 
