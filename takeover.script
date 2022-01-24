@@ -1,17 +1,20 @@
-if (fileExists("BruteSSH.exe", "home")) brutessh(args[0]);
-if (fileExists("FTPCrack.exe", "home")) ftpcrack(args[0]);
-if (fileExists("relaySMTP.exe", "home")) relaysmtp(args[0]); 
+for (i = 0; i < args.length; i++) {
+	if (fileExists("BruteSSH.exe", "home")) brutessh(args[i]);
+	if (fileExists("FTPCrack.exe", "home")) ftpcrack(args[i]);
+	if (fileExists("relaySMTP.exe", "home")) relaysmtp(args[i]);
+	if (fileExists("HTTPWorm.exe", "home")) httpworm(args[i]);
+	if (fileExists("SQLInject.exe", "home")) sqlinject(args[i]);
+	nuke(args[i]);
 
-nuke(args[0]);
+	var n_grow_on_host = getServerMaxRam(args[i]) / 2 - 1;
 
-var n_grow_on_host = getServerMaxRam(args[0]) / 2  - 1;
+	files = ['grow.ns', 'weaken.ns'];
+	scp(files, 'home', args[i]);
 
-files = ['grow.ns', 'weaken.ns'];
-scp(files, 'home', args[0]);
+	run('grow.ns', 12, args[i]);
+	run('weaken.ns', 4, args[i]);
+	run('hack.ns', 4, args[i]);
 
-run('grow.ns', 4, args[0]); 
-run('weaken.ns', 2, args[0]); 
-run('hack.ns', 1, args[0]); 
-
-if(n_grow_on_host > 0) exec('grow.ns', args[0], n_grow_on_host, args[0]);
-if(n_grow_on_host > -1) exec('weaken.ns', args[0], 1, args[0]);
+	if (n_grow_on_host > 0) exec('grow.ns', args[i], n_grow_on_host, args[i]);
+	if (n_grow_on_host > -1) exec('weaken.ns', args[i], 1, args[i]);
+}
