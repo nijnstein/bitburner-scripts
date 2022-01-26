@@ -21,6 +21,13 @@ While basic, these are easy to understand and get you started.
 -starts hacking server from Home
 
 
+### Worm
+
+- iterates through all reachable hosts with scan
+- if not hacked yet, it will take over host
+- uses takeover.script 
+- start with: run worm.ns
+- -> very basic!
 
 ### HackNet Automation
 
