@@ -2,10 +2,11 @@ async function worm(ns, node) {
 
 	await ns.sleep(100);
  
-	past_nodes.push(node); 
-
-	if (ns.hasRootAccess(node))
+	
+	if (ns.hasRootAccess(node) && taken_over.includes(node))
 	{
+		past_nodes.push(node); 
+
 		var children = ns.scan(node);
 		for (var i = 0; i < children.length; i++) 
 		{
@@ -14,7 +15,7 @@ async function worm(ns, node) {
 			if(node != children[i])
 			{
 				await worm(ns, children[i]);
-				await ns.sleep(400);
+				await ns.sleep(100);
 			}
 		}
 	}
@@ -25,12 +26,15 @@ async function worm(ns, node) {
 		{
 			ns.print("taking over node: " + node);
 			ns.run("takeover.script", 1, node);
-			await ns.sleep(400); 
+			await ns.sleep(100); 
+
+			taken_over.push(node);
 		}
 	}
 }
 
 var past_nodes = ["home"];
+var taken_over = []; 
 
 
 /** @param {NS} ns **/
