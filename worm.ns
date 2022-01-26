@@ -34,7 +34,7 @@ async function worm(ns, node) {
 }
 
 var past_nodes = ["home"];
-var taken_over = []; 
+var taken_over = ["home"]; 
 
 
 /** @param {NS} ns **/
@@ -46,7 +46,7 @@ export async function main(ns) {
 
 	while (true) 
 	{
-		await ns.sleep(1000);
+		await ns.sleep(10000);
 		await worm(ns, root_host);
 
 		past_nodes = ["home"];
