@@ -1,0 +1,50 @@
+async function worm(ns, node) {
+
+	await ns.sleep(100);
+ 
+	past_nodes.push(node); 
+
+	if (ns.hasRootAccess(node))
+	{
+		var children = ns.scan(node);
+		for (var i = 0; i < children.length; i++) 
+		{
+			if(past_nodes.includes(children[i])) continue; 
+
+			if(node != children[i])
+			{
+				await worm(ns, children[i]);
+				await ns.sleep(400);
+			}
+		}
+	}
+	else 
+	{
+		// takeover node 
+		if (ns.getHackingLevel() > ns.getServerRequiredHackingLevel(node)) 
+		{
+			ns.print("taking over node: " + node);
+			ns.run("takeover.script", 1, node);
+			await ns.sleep(400); 
+		}
+	}
+}
+
+var past_nodes = ["home"];
+
+
+/** @param {NS} ns **/
+export async function main(ns) {
+
+	var root_host = ns.getHostname(); 
+	
+	ns.print("rooting worm at: " + root_host);
+
+	while (true) 
+	{
+		await ns.sleep(1000);
+		await worm(ns, root_host);
+
+		past_nodes = ["home"];
+	}
+}
