@@ -71,7 +71,14 @@ export async function main(ns) {
 
 							var money_for_n = Math.floor(money / ns.stock.getAskPrice(symbols[ibest]));
 							if (money_for_n > 1) {
-								ns.stock.buy(symbols[ibest], Math.min(n_buy, money_for_n - 1));
+								var n =  Math.min(n_buy, money_for_n); 
+								if(n > 0)
+								{
+									while(ns.stock.buy(symbols[ibest], n) == 0 && n > 0)
+									{
+										n = n - 1; 
+									}
+								}
 								buying = true;
 							}
 						}
@@ -107,8 +114,9 @@ export async function main(ns) {
 					var n_buy = maxshares[i] - shorted[i] - position[i];
 					var money_for_n = Math.floor(money / ns.stock.getAskPrice(symbols[i]));
 
-					if (money_for_n > 0) {
-						ns.stock.buy(symbols[i], Math.min(n_buy, money_for_n));
+					var n = Math.min(n_buy, money_for_n) - 1; 
+					if (n > 0) {
+						ns.stock.buy(symbols[i], n);
 						ns.stock.short(symbols[i], ns.stock.getPosition(symbols[i])[0]);
 					}
 				}
