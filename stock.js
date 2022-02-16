@@ -1,8 +1,8 @@
 /** @param {NS} ns **/
 export async function main(ns) {
 
-	var min_buy = 5; // remove hysterys while switching between long-short
-	var bad_stock = -5;
+	var min_buy = 0.5; // remove hysterys while switching between long-short
+	var bad_stock = -0.5;
 	var min_money = 1000 * 1000 * 100; // smallest txn at 100M
 
 	ns.print("Minimal txn amount = ", min_money);
@@ -18,12 +18,13 @@ export async function main(ns) {
 	}
 
 	var symbols = ns.stock.getSymbols();
-	var maxshares = new Array(symbols.length);
-
-	for (var i = 0; i < symbols.length; i++)
-		maxshares[i] = ns.stock.getMaxShares(symbols[i]);
+	ns.print(symbols);
 
 	while (true) {
+		var maxshares = new Array(symbols.length);
+
+		for (var i = 0; i < symbols.length; i++)
+			maxshares[i] = ns.stock.getMaxShares(symbols[i]);
 
 		var fc = new Array(symbols.length);
 		var ibest = -1;
@@ -40,6 +41,7 @@ export async function main(ns) {
 				shorted[i] = pos[2];
 				fc[i] = (ns.stock.getForecast(symbols[i]) * 100.0) - 50.0;
 			}
+				 
 
 			// get stock forecast and get the best we dont have all shares from 
 			for (var i = 0; i < symbols.length; i++) {
@@ -68,8 +70,8 @@ export async function main(ns) {
 							var n_buy = max - pos;
 
 							var money_for_n = Math.floor(money / ns.stock.getAskPrice(symbols[ibest]));
-							if (money_for_n > 0) {
-								ns.stock.buy(symbols[ibest], Math.min(n_buy, money_for_n));
+							if (money_for_n > 1) {
+								ns.stock.buy(symbols[ibest], Math.min(n_buy, money_for_n - 1));
 								buying = true;
 							}
 						}
