@@ -74,8 +74,10 @@ export async function main(ns) {
 								var n =  Math.min(n_buy, money_for_n); 
 								if(n > 0)
 								{
-									while(ns.stock.buy(symbols[ibest], n) == 0 && n > 0)
+									var i = 4;
+									while(ns.stock.buy(symbols[ibest], n) == 0 && i > 0)
 									{
+										i--;
 										n = n - 1; 
 									}
 								}
