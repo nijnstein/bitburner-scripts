@@ -43,3 +43,8 @@ While basic, these are easy to understand and get you started.
 0.8 / 30 = 0.026   => not efficient to upgrade core > 12 when cost of node ~300M
 
 !! script should check if upgrading is more expensive then adding a node by calculating cost/$/second and selecting the most efficient update
+
+
+### Stock Automation
+
+Just make sure you have $$$$ and run stock.js
